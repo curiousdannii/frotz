@@ -927,11 +927,12 @@ void tokenise_line(zword text, zword token, zword dct, bool flag)
 		LOW_BYTE(sep_addr, sep_count)
 		sep_addr++;
 
-		do {
-			LOW_BYTE(sep_addr, separator)
-			sep_addr++;
-
-		} while (c != separator && --sep_count != 0);
+		if (sep_count != 0) {
+			do {
+				LOW_BYTE(sep_addr, separator)
+				sep_addr++;
+			} while (c != separator && --sep_count != 0);
+		}
 
 		/* This could be the start or the end of a word */
 		if (sep_count == 0 && c != ' ' && c != 0) {
