@@ -76,7 +76,7 @@ zchar translate_from_zscii(zbyte c)
 			LOW_BYTE(z_header.x_unicode_table, N)
 			if (c - 0x9b < N) {
 				zword addr =
-				    z_header.x_unicode_table + 1 + 2 * (c - 0x9b);
+					z_header.x_unicode_table + 1 + 2 * (c - 0x9b);
 				zword unicode;
 
 				LOW_WORD(addr, unicode)
@@ -91,7 +91,7 @@ zchar translate_from_zscii(zbyte c)
 			} else
 				return '?';
 
-		} else /* game uses standard set */ if (c <= 0xdf) {
+		} else if (c <= 0xdf) {	/* game uses standard set */
 			return zscii_to_latin1[c - 0x9b];
 		} else
 			return '?';
@@ -295,8 +295,8 @@ letter_found:
 	/* Three Z-characters make a 16bit word */
 	for (i = 0; i < resolution; i++) {
 		encoded[i] =
-		    (zchars[3 * i + 0] << 10) |
-		    (zchars[3 * i + 1] << 5) | (zchars[3 * i + 2]);
+			(zchars[3 * i + 0] << 10) |
+			(zchars[3 * i + 1] << 5) | (zchars[3 * i + 2]);
 	}
 	encoded[resolution - 1] |= 0x8000;
 } /* encode_text */
@@ -413,7 +413,7 @@ static void decode_text(enum string_type st, zword addr)
 			byte_addr = (long)addr << 2;
 		else if (z_header.version <= V7)
 			byte_addr =
-			    ((long)addr << 2) + ((long)z_header.strings_offset << 3);
+				((long)addr << 2) + ((long)z_header.strings_offset << 3);
 		else		/* (z_header.version == V8) */
 			byte_addr = (long)addr << 3;
 
@@ -438,7 +438,8 @@ static void decode_text(enum string_type st, zword addr)
 			byte_addr += 2;
 		} else
 			CODE_WORD(code)
-			/* Read its three Z-characters */
+
+		/* Read its three Z-characters */
 		for (i = 10; i >= 0; i -= 5) {
 			zword abbr_addr;
 			zword ptr_addr;
@@ -465,22 +466,20 @@ static void decode_text(enum string_type st, zword addr)
 					status = 1;
 				else {
 					shift_state =
-					    (shift_lock + (c & 1) +
-					     1) % 3;
+					    (shift_lock + (c & 1) + 1) % 3;
 					if (z_header.version <= V2 && c >= 4)
-						shift_lock =
-						    shift_state;
+						shift_lock = shift_state;
 					break;
 				}
 				shift_state = shift_lock;
 				break;
 			case 1:	/* abbreviation */
 				ptr_addr =
-				    z_header.abbreviations + 64 * (prev_c -
-						    1) + 2 * c;
+					z_header.abbreviations + 64
+					* (prev_c - 1) + 2 * c;
 				LOW_WORD(ptr_addr, abbr_addr)
-				    decode_text(ABBREVIATION,
-						abbr_addr);
+				decode_text(ABBREVIATION,
+					abbr_addr);
 				status = 0;
 				break;
 			case 2:	/* ZSCII character - first part */
@@ -567,7 +566,7 @@ void z_print_form(void)
 	for (;;) {
 
 		LOW_WORD(addr, count)
-		    addr += 2;
+		addr += 2;
 
 		if (count == 0)
 			break;
@@ -578,7 +577,7 @@ void z_print_form(void)
 		while (count--) {
 			zbyte c;
 			LOW_BYTE(addr, c)
-			    addr++;
+			addr++;
 
 			print_char(translate_from_zscii(c));
 		}
@@ -614,8 +613,8 @@ void print_num(zword value)
 	}
 #endif
 
-	/* Print absolute value */ {
-	for (i = 10000; i != 0; i /= 10)
+	/* Print absolute value */
+	for (i = 10000; i != 0; i /= 10) {
 		if (value >= i || i == 1)
 			print_char('0' + (value / i) % 10);
 	}
@@ -812,7 +811,7 @@ static zword lookup_text(int padding, zword dct)
 
 		for (i = 0; i < resolution; i++) {
 			LOW_WORD(addr, entry)
-			    if (encoded[i] != entry)
+			if (encoded[i] != entry)
 				goto continuing;
 			addr += 2;
 		}
@@ -851,7 +850,7 @@ continuing:
  *
  */
 static void tokenise_text(zword text, zword length, zword from, zword parse,
-			  zword dct, bool flag)
+                          zword dct, bool flag)
 {
 	zword addr;
 	zbyte token_max, token_count;
@@ -921,15 +920,16 @@ void tokenise_line(zword text, zword token, zword dct, bool flag)
 			c = 0;
 		else
 			LOW_BYTE(addr1, c)
-			/* Check for separator */
-			sep_addr = dct;
+
+		/* Check for separator */
+		sep_addr = dct;
 
 		LOW_BYTE(sep_addr, sep_count)
 		sep_addr++;
 
 		do {
 			LOW_BYTE(sep_addr, separator)
-			    sep_addr++;
+			sep_addr++;
 
 		} while (c != separator && --sep_count != 0);
 
@@ -939,8 +939,8 @@ void tokenise_line(zword text, zword token, zword dct, bool flag)
 				addr2 = addr1;
 		} else if (addr2 != 0) {
 			tokenise_text(text,
-				      (zword) (addr1 - addr2),
-				      (zword) (addr2 - text), token, dct, flag);
+				(zword) (addr1 - addr2),
+				(zword) (addr2 - text), token, dct, flag);
 			addr2 = 0;
 		}
 
