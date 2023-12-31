@@ -227,22 +227,10 @@ is represented by 'o'.^";
 		count-->x = 0;
 	}
 
-	Height = $24-->0;
+	Height = $20-->0;
 
 	while (1) {
 		randomize_spread();
-
-
-
-
-
-
-
-
-
-
-
-
 		display_spread();
 		@read_char -> x;
 	}
