@@ -77,7 +77,7 @@ Array count --> 70;
 		print "Press 'q' to quit.";
 		top = bin-->x / Granularity;
 		if (top < 0) {
-			top == 0;
+			top = 0;
 		}
 		if (top >= Height - 2) {
 			return 0;
