@@ -66,9 +66,9 @@ Array count --> 70;
 	@set_window 1;
 	@erase_window 1;
 
+	@set_cursor 1 1;
+	print "prev: ", Dropcount_last;
 	for (x = 0: x <= LANES: x++) {
-		@set_cursor 1 1;
-		print "prev: ", Dropcount_last;
 		@set_cursor 2 1;
 		print "drops: ", Dropcount_curr;
 		@set_cursor 3 1;
