@@ -9,6 +9,8 @@
 ! put it in here anyway.
 !
 
+Release 2;
+
 Constant LANES  80;
 Constant PEG_HEIGHT 40;
 
@@ -236,10 +238,14 @@ is represented by 'o'.^";
 	}
 ];
 
-[ Main mychar;
+[ Main mychar i;
+
 	while (1) {
 		print "^Inform Randomization Test version 1.0, by David
-		Griffith August 2002^^";
+		Griffith August 2002^";
+                print "Release ", (0-->1)&$03ff, " / Serial number ";
+		for (i=0 : i<6 : i++) print (char) $12->i;
+		print "^^";
 		print "1) Bellcurve graph.^";
 		print "2) Spread graph.^";
 		print "q) Quit.^";
