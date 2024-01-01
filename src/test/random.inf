@@ -1,4 +1,6 @@
-! Inform Randomization Test version 1.0, by David Griffith August 2002
+! Inform Randomization Test Release 2 by David Griffith August 2002 - 2023
+!
+! This version was originally distributed with Frotz.
 !
 ! Simulates dropping balls through a grid of pegs to test the
 ! interpreter's random number generator.  A bellcurve should be the
@@ -8,8 +10,10 @@
 ! Zoom tarball.  I'm not quite sure how it displays randomness, but I
 ! put it in here anyway.
 !
+! This program is placed in the public domain.
 
 Release 2;
+Serial "231231";
 
 Constant LANES  80;
 Constant PEG_HEIGHT 40;
@@ -241,8 +245,10 @@ is represented by 'o'.^";
 [ Main mychar i;
 
 	while (1) {
-		print "^Inform Randomization Test version 1.0, by David
-		Griffith August 2002^";
+		print "^Inform Randomization Test^";
+		print "by David Griffith 2002 - 2023^";
+		print "This program is in the public domain.^";
+		print "Originally distributed with Frotz.^";
                 print "Release ", (0-->1)&$03ff, " / Serial number ";
 		for (i=0 : i<6 : i++) print (char) $12->i;
 		print "^^";
