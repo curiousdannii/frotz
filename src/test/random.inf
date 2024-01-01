@@ -191,12 +191,10 @@ is represented by 'o'.^";
 
 		if (z == ' ') {
 			@read_char 1 z;
-		} else {
-	! This does not exit the test correctly.
-			if (z == 'q' || z == 'Q') {
-				@erase_window -1;
-				rfalse;
-			}
+		}
+		if (z == 'q' || z == 'Q') {
+			@erase_window -1;
+			rfalse;
 		}
 	}
 ];
@@ -236,7 +234,7 @@ is represented by 'o'.^";
 	Height = $20-->0;
 
 	while (1) {
-		randomize_spread();
+		if (~randomize_spread()) return;
 		display_spread();
 		@read_char -> x;
 	}
