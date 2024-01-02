@@ -78,7 +78,7 @@ Array count --> 70;
 		@set_cursor 3 1;
 		print "granularity: ", Granularity;
 		@set_cursor 1 20;
-		print "Press <space> to pause.";
+		print "<space>: pause.";
 		@set_cursor 2 20;
 		print "Press 'q' to quit.";
 		top = bin-->x / Granularity;
@@ -163,11 +163,11 @@ is represented by 'o'.^";
 		}
 		@read_char 1 1 pause -> crap;
 		if (crap == ' ') {
-			@erase_window 1;
 			@set_cursor 1 20;
-			print "Paused.";
-
+			print "===  Paused  ===";
+			@set_cursor Height LANES;
 			@read_char 1 pause crap;
+			@erase_window 1;
 		} else {
 			if (crap == 'q' || crap == 'Q') {
 				@erase_window -1;
