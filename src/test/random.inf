@@ -15,7 +15,7 @@
 ! This program is placed in the public domain.
 
 Release 2;
-Serial "231231";
+!Serial "231231";
 
 Constant MAX_LANES  = 256;
 Constant PEG_HEIGHT = 40;
