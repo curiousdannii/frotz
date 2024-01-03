@@ -25,6 +25,7 @@ Global iterations = 0;
 
 Global Granularity = 1;
 Global Height = 0;
+Global Width = 0;
 Global Dropcount_curr = 0;
 Global Dropcount_last = 0;
 Array bin --> LANES + 1;
@@ -144,7 +145,6 @@ is represented by 'o'.^";
 	for (num = 0: num < LANES: num++) {
 		bin-->num = 0;
 	}
-	Height = $24-->0;
 	while (1) {
 		for (reps = 1: reps <= GRANULARITY: reps++) {
 			x = drop(LANES/2);
@@ -185,7 +185,6 @@ is represented by 'o'.^";
 			count-->y = count-->y + 1;
 		}
 		iterations = iterations + time;
-		Height = $24-->0;
 		display_spread();
 		@read_char 1 1 pause -> z;
 
@@ -231,8 +230,6 @@ is represented by 'o'.^";
 		count-->x = 0;
 	}
 
-	Height = $20-->0;
-
 	while (1) {
 		if (~randomize_spread()) return;
 		display_spread();
@@ -241,6 +238,8 @@ is represented by 'o'.^";
 ];
 
 [ Main mychar i;
+	Width = $21->0;
+	Height = $20->0;
 
 	while (1) {
 		print "^Inform Randomization Test^";
