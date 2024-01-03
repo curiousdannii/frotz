@@ -15,8 +15,8 @@
 Release 2;
 Serial "231231";
 
-Constant LANES  80;
-Constant PEG_HEIGHT 40;
+Constant MAX_LANES  = 256;
+Constant PEG_HEIGHT = 40;
 
 ! For the spread random test
 Constant usualIter = 20000;
@@ -28,7 +28,8 @@ Global Height = 0;
 Global Width = 0;
 Global Dropcount_curr = 0;
 Global Dropcount_last = 0;
-Array bin --> LANES + 1;
+Array bin --> MAX_LANES + 1;
+Constant BELL_RESERVED_ROWS = 3;
 
 Array count --> 70;
 
@@ -38,8 +39,10 @@ Array count --> 70;
 ! Likewise for the very right.  Therefore, balls should always be
 ! dropped into the very middle.
 !
-[ drop initial_lane current_lane x y;
+[ drop lanes initial_lane current_lane x y;
+
 	Dropcount_curr++;
+	initial_lane = lanes / 2;
 	current_lane = initial_lane;
 	for (x = PEG_HEIGHT: x > 0: x--) {
 		y = random(2);
@@ -53,7 +56,7 @@ Array count --> 70;
 			}
 		}
 		if (y == 2) {	! Ball bounces right.
-			if (current_lane == LANES) {
+			if (current_lane == lanes) {
 				@set_cursor 3 20;
 				print "ERROR! Ball fell of right side!";
 				quit;
@@ -66,14 +69,14 @@ Array count --> 70;
 ];
 
 
-[ display_bellcurve x y q top;
+[ display_bellcurve lanes x y q top;
 	@split_window Height;
 	@set_window 1;
 	@erase_window 1;
 
 	@set_cursor 1 1;
 	print "prev: ", Dropcount_last;
-	for (x = 0: x <= LANES: x++) {
+	for (x = 0: x <= lanes: x++) {
 		@set_cursor 2 1;
 		print "drops: ", Dropcount_curr;
 		@set_cursor 3 1;
@@ -86,13 +89,13 @@ Array count --> 70;
 		if (top < 0) {
 			top = 0;
 		}
-		if (top >= Height - 2) {
+		if (top >= Height - BELL_RESERVED_ROWS) {
 			return 0;
 		}
 		for (y = 0: y <= top: y++) {
 			q = Height - y;
 			@set_cursor q x;
-			if (x == LANES/2) {
+			if (x == lanes/2) {
 				print (char) '|';
 			} else {
 				if (y == 0) {
@@ -107,11 +110,16 @@ Array count --> 70;
 ];
 
 
-[ Main_bellcurve x y reps ix num crap;
+[ Main_bellcurve lanes x y reps ix num crap;
 
 	@set_window 0;
 	@erase_window -1;
 
+
+	! The highest even number that fits
+	lanes = (Width / 2) * 2;
+	if (lanes > MAX_LANES)
+		lanes = (MAX_LANES / 2) * 2;
 
 	print "^^This program drops ~balls~ from the very top-middle of
 a vertical two-dimensional field filled with pegs.  The balls bounce off
@@ -142,30 +150,30 @@ is represented by 'o'.^";
 	print "^^Press any key to begin.  ";
 	@read_char 1 crap;
 
-	for (num = 0: num < LANES: num++) {
+	for (num = 0: num < lanes: num++) {
 		bin-->num = 0;
 	}
 	while (1) {
 		for (reps = 1: reps <= GRANULARITY: reps++) {
-			x = drop(LANES/2);
+			x = drop(lanes);
 		}
 		bin-->x = bin-->x + 1;
-		y = display_bellcurve();
+		y = display_bellcurve(lanes);
 		if (y == 0) {
-			for (num = 0: num < LANES: num++) {
+			for (num = 0: num < lanes: num++) {
 				bin-->num = 0;
 			}
 			@erase_window 0;
 			@erase_window 1;
 			dropcount_last = dropcount_curr;
 			dropcount_curr = 0;
-			display_bellcurve();
+			display_bellcurve(lanes);
 		}
 		@read_char 1 1 pause -> crap;
 		if (crap == ' ') {
 			@set_cursor 1 20;
 			print "===  Paused  ===";
-			@set_cursor Height LANES;
+			@set_cursor Height lanes;
 			@read_char 1 pause crap;
 			@erase_window 1;
 		} else {
@@ -237,9 +245,12 @@ is represented by 'o'.^";
 	}
 ];
 
-[ Main mychar i;
+[ Main mychar i height_trimmed width_trimmed;
 	Width = $21->0;
 	Height = $20->0;
+
+	width_trimmed = (Width/2) * 2;
+	height_trimmed = (Height/2) * 2;
 
 	while (1) {
 		print "^Inform Randomization Test^";
@@ -249,7 +260,15 @@ is represented by 'o'.^";
                 print "Release ", (0-->1)&$03ff, " / Serial number ";
 		for (i=0 : i<6 : i++) print (char) $12->i;
 		print "^^";
-		print "1) Bellcurve graph.^";
+		print "Height: ", Height, "^";
+		print "Width: ", Width;
+		if (width_trimmed >= MAX_LANES) {
+			print " (This exceeds maximum of ", MAX_LANES, ".  Things may not work properly.)^";
+		} else {
+			print "^";
+		}
+
+		print "^1) Bellcurve graph.^";
 		print "2) Spread graph.^";
 		print "q) Quit.^";
 		print "^Please select a test: ";
