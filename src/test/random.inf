@@ -32,6 +32,7 @@ Global Dropcount_curr = 0;
 Global Dropcount_last = 0;
 Array bin --> MAX_LANES + 1;
 Constant BELL_RESERVED_ROWS = 3;
+Constant SPREAD_RESERVED_ROWS = 3;
 
 Array count --> 70;
 
@@ -199,6 +200,8 @@ is represented by 'o'.^";
 		@read_char 1 1 pause -> z;
 
 		if (z == ' ') {
+			@set_cursor 1 20;
+			print "===  Paused  ===";
 			@read_char 1 z;
 		}
 		if (z == 'q' || z == 'Q') {
@@ -220,7 +223,14 @@ is represented by 'o'.^";
 		}
 	}
 	@set_cursor 1 1;
-	print iterations, " iterations";
+	print "iterations: ", iterations;
+	@set_cursor 2 1;
+        print "granularity: ", granularity;
+	@set_cursor 1 20;
+	print "<space>: Pause.";
+	@set_cursor 2 20;
+	print "'q': Quit.";
+
 	for (x = 0: x < 70: x++) {
 		z = (count-->x * (Height-2)) / largest;
 		q = 3 + (x % 6);
@@ -235,7 +245,18 @@ is represented by 'o'.^";
 	@set_cursor 1 1;
 ];
 
-[ Main_spread x;
+[ Main_spread x crap;
+
+	@set_window 0;
+	@erase_window -1;
+
+	print "^^This program draws random numbers in the range 1-n,
+		where n is the number of columns or rows available on
+		screen, up to 80. In the long run, all the bars should
+		be just about the same length.^^";
+        print "Press any key to begin.  ";
+	@read_char 1 -> crap;
+
 	for (x = 0: x < 70: x++) {
 		count-->x = 0;
 	}
