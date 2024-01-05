@@ -23,21 +23,19 @@ Global Granularity = 1;
 Global Height = 0;
 Global Width = 0;
 Global Lanes = 0;
+Array Count --> MAX_LANES + 1;
 
 ! For the bellcurve test
 Constant BELL_RESERVED_ROWS = 3;
 Constant PEG_HEIGHT = 40;
 Global Dropcount_curr = 0;
 Global Dropcount_last = 0;
-Array bin --> MAX_LANES + 1;
 
 ! For the spread random test
 Constant SPREAD_RESERVED_ROWS = 3;
 Constant usualIter = 20000;
 Constant time = 50;
 Global iterations = 0;
-!Array count --> 70;
-Array count --> 80;
 
 
 ! Drop a ball into a given lane.  Return the number of the bin the ball
@@ -92,7 +90,7 @@ Array count --> 80;
 		print "<space>: pause.";
 		@set_cursor 2 20;
 		print "Press 'q' to quit.";
-		top = bin-->x / Granularity;
+		top = Count-->x / Granularity;
 		if (top < 0) {
 			top = 0;
 		}
@@ -158,17 +156,17 @@ is represented by 'o'.^";
 	@read_char 1 crap;
 
 	for (num = 0: num < Lanes: num++) {
-		bin-->num = 0;
+		Count-->num = 0;
 	}
 	while (1) {
 		for (reps = 1: reps <= GRANULARITY: reps++) {
 			x = drop(Lanes);
 		}
-		bin-->x = bin-->x + 1;
+		Count-->x = Count-->x + 1;
 		y = display_bellcurve(Lanes);
 		if (y == 0) {
 			for (num = 0: num < Lanes: num++) {
-				bin-->num = 0;
+				Count-->num = 0;
 			}
 			@erase_window 0;
 			@erase_window 1;
@@ -197,7 +195,7 @@ is represented by 'o'.^";
 		for (z = 0: z < time: z++) {
 			x++;
 			y = random(Lanes - 1);
-			count-->y = count-->y + 1;
+			Count-->y = Count-->y + 1;
 		}
 		iterations = iterations + time;
 		display_spread();
@@ -222,8 +220,8 @@ is represented by 'o'.^";
 
 	largest = 1;
 	for (x = 0: x < Lanes: x++) {
-		if (count-->x > largest) {
-			largest = count-->x;
+		if (Count-->x > largest) {
+			largest = Count-->x;
 		}
 	}
 	@set_cursor 1 1;
@@ -236,7 +234,7 @@ is represented by 'o'.^";
 	print "'q': Quit.";
 
 	for (x = 0: x < Lanes: x++) {
-		z = (count-->x * (Height-2)) / largest;
+		z = (Count-->x * (Height-2)) / largest;
 		q = 3 + (x % 6);
 		@set_colour q q;
 		for (y = 0: y <= z: y++) {
@@ -264,7 +262,7 @@ is represented by 'o'.^";
 	Lanes = Width;
 
 	for (x = 0: x < Lanes: x++) {
-		count-->x = 0;
+		Count-->x = 0;
 	}
 
 	while (1) {
