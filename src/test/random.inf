@@ -163,10 +163,10 @@ is represented by 'o'.^";
 	}
 	while (1) {
 		for (reps = 1: reps <= GRANULARITY: reps++) {
-			x = drop(Lanes);
+			x = drop();
 		}
 		Count-->x = Count-->x + 1;
-		y = display_bellcurve(Lanes);
+		y = display_bellcurve();
 		if (y == 0) {
 			for (num = 0: num < Lanes: num++) {
 				Count-->num = 0;
@@ -175,7 +175,7 @@ is represented by 'o'.^";
 			@erase_window 1;
 			dropcount_last = dropcount_curr;
 			dropcount_curr = 0;
-			display_bellcurve(Lanes);
+			display_bellcurve();
 		}
 		@read_char 1 1 pause -> crap;
 		if (crap == ' ') {
