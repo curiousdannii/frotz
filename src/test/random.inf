@@ -23,6 +23,9 @@ Global Granularity = 1;
 Global Height = 0;
 Global Width = 0;
 Global Lanes = 0;
+Global Bar_Base = '=';
+Global Bar_Mid = '|';
+Global Bar = 'o';
 Array Count --> MAX_LANES + 1;
 
 ! For the bellcurve test
@@ -101,12 +104,12 @@ Global iterations = 0;
 			q = Height - y;
 			@set_cursor q x;
 			if (x == Lanes/2) {
-				print (char) '|';
+				print (char) Bar_Mid;
 			} else {
 				if (y == 0) {
-					print (char) '=';
+					print (char) Bar_Base;
 				} else {
-					print (char) 'o';
+					print (char) Bar;
 				}
 			}
 		}
@@ -234,16 +237,17 @@ is represented by 'o'.^";
 	print "'q': Quit.";
 
 	for (x = 0: x < Lanes: x++) {
-		z = (Count-->x * (Height-2)) / largest;
+		z = (Count-->x * (Height-SPREAD_RESERVED_ROWS)) / largest;
 		q = 3 + (x % 6);
-		@set_colour q q;
 		for (y = 0: y <= z: y++) {
 			q = Height - y;
 			@set_cursor q x;
-			print (char) '#';
+			if (y == 0)
+				print (char) Bar_Base;
+			else
+				print (char) Bar;
 		}
 	}
-	@set_colour 1 1;
 	@set_cursor 1 1;
 ];
 
