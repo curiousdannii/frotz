@@ -36,7 +36,8 @@ Constant SPREAD_RESERVED_ROWS = 3;
 Constant usualIter = 20000;
 Constant time = 50;
 Global iterations = 0;
-Array count --> 70;
+!Array count --> 70;
+Array count --> 80;
 
 
 ! Drop a ball into a given lane.  Return the number of the bin the ball
@@ -195,7 +196,7 @@ is represented by 'o'.^";
 	for (x = 0: x < usualIter: ) {
 		for (z = 0: z < time: z++) {
 			x++;
-			y = random(69);
+			y = random(Lanes - 1);
 			count-->y = count-->y + 1;
 		}
 		iterations = iterations + time;
@@ -220,7 +221,7 @@ is represented by 'o'.^";
 	@erase_window 1;
 
 	largest = 1;
-	for (x = 0: x < 70: x++) {
+	for (x = 0: x < Lanes: x++) {
 		if (count-->x > largest) {
 			largest = count-->x;
 		}
@@ -234,7 +235,7 @@ is represented by 'o'.^";
 	@set_cursor 2 20;
 	print "'q': Quit.";
 
-	for (x = 0: x < 70: x++) {
+	for (x = 0: x < Lanes: x++) {
 		z = (count-->x * (Height-2)) / largest;
 		q = 3 + (x % 6);
 		@set_colour q q;
@@ -253,14 +254,16 @@ is represented by 'o'.^";
 	@set_window 0;
 	@erase_window -1;
 
-	print "^^This program draws random numbers in the range 1-n,
+	print "^^This program draws random numbers in the range n-1,
 		where n is the number of columns or rows available on
 		screen, up to 80. In the long run, all the bars should
 		be just about the same length.^^";
         print "Press any key to begin.  ";
 	@read_char 1 -> crap;
 
-	for (x = 0: x < 70: x++) {
+	Lanes = Width;
+
+	for (x = 0: x < Lanes: x++) {
 		count-->x = 0;
 	}
 
