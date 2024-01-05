@@ -207,6 +207,7 @@ is represented by 'o'.^";
 		if (z == ' ') {
 			@set_cursor 1 20;
 			print "===  Paused  ===";
+			@set_cursor Height Lanes;
 			@read_char 1 z;
 		}
 		if (z == 'q' || z == 'Q') {
@@ -248,7 +249,7 @@ is represented by 'o'.^";
 				print (char) Bar;
 		}
 	}
-	@set_cursor 1 1;
+	@set_cursor Height Lanes;
 ];
 
 [ Main_spread x crap;
