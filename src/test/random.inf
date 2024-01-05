@@ -1,6 +1,8 @@
 !% -~S
 !% $OMIT_UNUSED_ROUTINES=1
-! Z-machine Randomization Test Release 2 by David Griffith August 2002 - 2023
+! Z-machine Randomization Test Suite
+! by David Griffith August 2002 - 2023
+! Release 2 / Serial number 2401XX
 !
 ! This version was originally distributed with Frotz.
 !
@@ -303,7 +305,7 @@ is represented by 'o'.^";
 	height_trimmed = (Height/2) * 2;
 
 	while (1) {
-		print "^Z-machine Randomization Test^";
+		print "^Z-machine Randomization Test Suite^";
 		print "by David Griffith 2002 - 2023^";
 		print "This program is in the public domain.^";
 		print "Originally distributed with Frotz.^";
