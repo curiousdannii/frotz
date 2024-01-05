@@ -77,6 +77,8 @@ Global iterations = 0;
 ];
 
 
+! Return false when a column reaches the top.
+! Otherwise return true.
 [ display_bellcurve x y q top;
 	@split_window Height;
 	@set_window 1;
@@ -98,7 +100,7 @@ Global iterations = 0;
 			top = 0;
 		}
 		if (top >= Height - BELL_RESERVED_ROWS) {
-			return 0;
+			rfalse;
 		}
 		for (y = 0: y <= top: y++) {
 			q = Height - y;
@@ -114,11 +116,11 @@ Global iterations = 0;
 			}
 		}
 	}
-	return 1;
+	rtrue;
 ];
 
 
-[ Main_bellcurve x y reps ix num crap;
+[ Main_bellcurve x reps ix num crap;
 
 	@set_window 0;
 	@erase_window -1;
@@ -166,8 +168,7 @@ is represented by 'o'.^";
 			x = drop();
 		}
 		Count-->x = Count-->x + 1;
-		y = display_bellcurve();
-		if (y == 0) {
+		if (display_bellcurve() == false) {
 			for (num = 0: num < Lanes: num++) {
 				Count-->num = 0;
 			}
@@ -193,7 +194,7 @@ is represented by 'o'.^";
 	}
 ];
 
-[ randomize_spread x y z;
+[ randomize_spread x y z num;
 	for (x = 0: x < usualIter: ) {
 		for (z = 0: z < time: z++) {
 			x++;
@@ -201,31 +202,47 @@ is represented by 'o'.^";
 			Count-->y = Count-->y + 1;
 		}
 		iterations = iterations + time;
-		display_spread();
-		@read_char 1 1 pause -> z;
+		if (display_spread() == false) {
+			for (num = 0: num < Lanes: num++) {
+				Count-->num = 0;
+			}
+			@erase_window 0;
+			@erase_window 1;
+!			dropcount_last = dropcount_curr;
+!			dropcount_curr = 0;
+!			display_spread();
+		} else {
+			@read_char 1 1 pause -> z;
 
-		if (z == ' ') {
-			@set_cursor 1 20;
-			print "===  Paused  ===";
-			@set_cursor Height Lanes;
-			@read_char 1 z;
-		}
-		if (z == 'q' || z == 'Q') {
-			@erase_window -1;
-			rfalse;
+			if (z == ' ') {
+				@set_cursor 1 20;
+				print "===  Paused  ===";
+				@set_cursor Height Lanes;
+				@read_char 1 z;
+			}
+			if (z == 'q' || z == 'Q') {
+				@erase_window -1;
+				rfalse;
+			}
 		}
 	}
 ];
 
-[ display_spread x y z q largest;
+
+! Return false when a column reaches the top.
+! Return true otherwise.
+[ display_spread x y z q top;
 	@split_window Height;
 	@set_window 1;
 	@erase_window 1;
 
-	largest = 1;
+	top = 1;
 	for (x = 0: x < Lanes: x++) {
-		if (Count-->x > largest) {
-			largest = Count-->x;
+		if (Count-->x > top) {
+			top = Count-->x;
+			if (top >= Height - SPREAD_RESERVED_ROWS) {
+				rfalse;
+			}
 		}
 	}
 	@set_cursor 1 1;
@@ -238,7 +255,7 @@ is represented by 'o'.^";
 	print "'q': Quit.";
 
 	for (x = 0: x < Lanes: x++) {
-		z = (Count-->x * (Height-SPREAD_RESERVED_ROWS)) / largest;
+		z = (Count-->x * (Height-SPREAD_RESERVED_ROWS)) / top;
 		q = 3 + (x % 6);
 		for (y = 0: y <= z: y++) {
 			q = Height - y;
@@ -250,6 +267,7 @@ is represented by 'o'.^";
 		}
 	}
 	@set_cursor Height Lanes;
+	rtrue;
 ];
 
 [ Main_spread x crap;
