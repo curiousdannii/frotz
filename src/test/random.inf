@@ -238,15 +238,6 @@ is represented by 'o'.^";
 	@set_window 1;
 	@erase_window 1;
 
-	top = 1;
-	for (x = 0: x < Lanes: x++) {
-		if (Count-->x > top) {
-			top = Count-->x;
-			if (top >= Height - SPREAD_RESERVED_ROWS) {
-				rfalse;
-			}
-		}
-	}
 	@set_cursor 1 1;
 	print "iterations: ", iterations;
 	@set_cursor 2 1;
@@ -256,6 +247,16 @@ is represented by 'o'.^";
 	@set_cursor 2 20;
 	print "'q': Quit.";
 
+	top = 1;
+
+	for (x = 0: x < Lanes: x++) {
+		if (Count-->x > top) {
+			top = Count-->x;
+			if (top >= Height - SPREAD_RESERVED_ROWS) {
+				rfalse;
+			}
+		}
+	}
 	for (x = 0: x < Lanes: x++) {
 		z = (Count-->x * (Height-SPREAD_RESERVED_ROWS)) / top;
 		q = 3 + (x % 6);
