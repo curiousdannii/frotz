@@ -148,22 +148,50 @@ ifeq ($(MAKECMDGOALS),simple)
 endif
 
 RANLIB ?= ranlib
-PKG_CONFIG ?= pkg-config
 
-# If we have pkg-config...
-ifneq ($(shell which $(PKG_CONFIG)),)
-# if pkg-config has $(CURSES)
-ifeq ($(shell $(PKG_CONFIG) --exists $(CURSES) && echo 0),0)
-# use pkg-config $(CURSES) info
-PKG_CONFIG_CURSES = yes
-CURSES_LDFLAGS += $(shell $(PKG_CONFIG) $(CURSES) --libs)
-CURSES_CFLAGS += $(shell $(PKG_CONFIG) $(CURSES) --cflags)
+# Check to see if pkgconf or pkg-config is available.
+# Both are functionally identical with the name pkg-config being deprecated.
+PKGCONF_BIN ?= pkgconf
+PKG_CONFIG_BIN ?= pkg-config
+# If we don't have pkgconf", check if pkg-config is available.
+ifneq ($(shell which $(PKGCONF_BIN)),)
+PKGCONF = $(PKGCONF_BIN)
+else
+$(warning *** Could not find $(PKGCONF_BIN).  Is $(PKG_CONFIG_BIN) available?)
+# Check if pkg-config is available.
+ifneq ($(shell which $(PKG_CONFIG_BIN)),)
+$(warning *** Found $(PKG_CONFIG_BIN)!  Now proceeding normally.)
+PKGCONF = $(PKG_CONFIG_BIN)
+else
+# Neither pkgconf nor pkg-config found.
+$(warning *** Neither $(PKGCONF_BIN) nor $(PKG_CONFIG_BIN) are found!)
+$(warning *** Trying default configuration.  If these don't work,)
+$(warning *** check the configuration section of the main Makefile.)
+NO_PKGCONF = yes
+endif
+endif
+
+
+#######################
+# Curses configuration.
+ifeq ($(NO_PKGCONF), yes)
+CURSES_LDFLAGS += -l$(CURSES)
+CURSES_CFLAGS += -D_DEFAULT_SOURCE
+else
+# if pkgconf has $(CURSES)
+ifeq ($(shell $(PKGCONF) --exists $(CURSES) && echo 0),0)
+# use pkgconf $(CURSES) info
+PKGCONF_CURSES = yes
+CURSES_LDFLAGS += $(shell $(PKGCONF) $(CURSES) --libs)
+CURSES_CFLAGS += $(shell $(PKGCONF) $(CURSES) --cflags)
 else # Otherwise, try something obvious like before.
 CURSES_LDFLAGS += -l$(CURSES)
+CURSES_CFLAGS += -D_DEFAULT_SOURCE
 endif
 endif
 
 
+#############################
 # OS-specific configurations.
 # NetBSD
 ifeq ($(UNAME_S),NetBSD)
@@ -250,6 +278,7 @@ export SOUND_TYPE
 export NO_SOUND
 export DESTDIR
 export PREFIX
+export PKGCONF
 
 NAME = frotz
 VERSION = 2.55pre
@@ -302,7 +331,7 @@ X11_LDFLAGS = `pkg-config $(X11_PKGS) --libs` -lm
 SDL_DIR = $(SRCDIR)/sdl
 SDL_LIB = $(SDL_DIR)/frotz_sdl.a
 export SDL_PKGS = libpng libjpeg sdl2 SDL2_mixer freetype2 zlib
-SDL_LDFLAGS += $(shell $(PKG_CONFIG) $(SDL_PKGS) --libs) -lm
+SDL_LDFLAGS += $(shell $(PKGCONF) $(SDL_PKGS) --libs) -lm
 
 SUBDIRS = $(COMMON_DIR) $(CURSES_DIR) $(X11_DIR) $(SDL_DIR) $(DUMB_DIR) $(BLORB_DIR) $(DOS_DIR) $(FONTS_DIR)
 SUB_CLEAN = $(SUBDIRS:%=%-clean)
