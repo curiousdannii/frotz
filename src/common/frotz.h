@@ -70,10 +70,6 @@ typedef int bool;
 /******************************************************************************/
 #include <stdio.h>
 
-#ifndef __TURBOC__
-#include <stdint.h>
-#endif
-
 #include "defs.h"
 #include "hash.h"
 
@@ -111,6 +107,7 @@ typedef unsigned short zword;
 #if defined(__TURBOC__) || defined(TOPS20)
 typedef unsigned long zlong;
 #else
+#include <stdint.h>
 typedef uint32_t zlong;
 #endif
 
