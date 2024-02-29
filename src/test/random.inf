@@ -1,8 +1,8 @@
 !% -~S
 !% $OMIT_UNUSED_ROUTINES=1
 ! Z-machine Randomization Test Suite
-! by David Griffith August 2002 - 2023
-! Release 2 / Serial number 2401XX
+! by David Griffith August 2002 - 2024
+! Release 2 / Serial number 240229
 !
 ! This version was originally distributed with Frotz.
 !
@@ -17,7 +17,7 @@
 ! This program is placed in the public domain.
 
 Release 2;
-!Serial "231231";
+Serial "240229";
 
 Constant MAX_LANES  = 256;
 
@@ -307,14 +307,14 @@ is represented by 'o'.^";
 
 	while (1) {
 		print "^Z-machine Randomization Test Suite^";
-		print "by David Griffith 2002 - 2023^";
+		print "by David Griffith 2002 - 2024^";
 		print "This program is in the public domain.^";
 		print "Originally distributed with Frotz.^";
                 print "Release ", (0-->1)&$03ff, " / Serial number ";
 		for (i=0 : i<6 : i++) print (char) $12->i;
 		print "^^";
-		print "Height: ", Height, "^";
-		print "Width: ", Width;
+		print "Screen Height: ", Height, "^";
+		print "Screen Width:  ", Width;
 		if (width_trimmed >= MAX_LANES) {
 			print " (This exceeds maximum of ", MAX_LANES, ".  Things may not work properly.)^";
 		} else {
