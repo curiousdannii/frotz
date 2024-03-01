@@ -1204,27 +1204,6 @@ void os_init_setup(void)
 } /* os_init_setup */
 
 
-#ifdef NO_STRRCHR
-/*
- * This is for operating systems that lack strrchr(3).
- *
- */
-char *my_strrchr(const char *s, int c)
-{
-	const char *save;
-
-	if (c == 0) return (char *)s + strlen(s);
-		save = 0;
-	while (*s) {
-		if (*s == c)
-			save = s;
-		s++;
-	}
-	return (char *)save;
-} /* my_strrchr */
-#endif	/* NO_STRRCHR */
-
-
 static void usage(void)
 {
 	printf("FROTZ V%s - Curses interface.  ", VERSION);

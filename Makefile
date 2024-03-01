@@ -80,6 +80,10 @@ CURSES ?= ncursesw
 # Doing this for the X11 interface will make it use old-style graphics.
 #NO_BLORB = yes
 
+
+################################
+# Potentially Missing Functions
+#
 # These are for enabling local version of certain functions which may be
 # missing or behave differently from what's expected in modern system.
 # If you're running on a system made in the past 20 years, you should be
@@ -97,11 +101,11 @@ CURSES ?= ncursesw
 # For missing strrchr()
 #NO_STRRCHR = yes
 
-# Uncomment to disable format codes for dumb interface
-#DISABLE_FORMATS = yes
-
 # For missing basename()
 #NO_BASENAME = yes
+
+# Uncomment to disable format codes for dumb interface
+#DISABLE_FORMATS = yes
 
 # If your target complains excessively about unused parameters, uncomment this
 #SILENCE_UNUSED = yes
@@ -588,6 +592,9 @@ endif
 	@echo "#define STACK_SIZE $(STACK_SIZE)" >> $@
 ifdef NO_BLORB
 	@echo "#define NO_BLORB" >> $@
+endif
+ifdef NO_BASENAME
+	@echo "#define NO_BASENAME" >> $@
 endif
 ifdef NO_STRRCHR
 	@echo "#define NO_STRRCHR" >> $@

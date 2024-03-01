@@ -22,12 +22,33 @@
 #include "frotz.h"
 #include <stdlib.h>
 
+#ifdef NO_STRRCHR
+char *my_strrchr(const char *s, int c)
+{
+	const char *save;
+
+	if (c == 0) return (char *)s + strlen(s);
+		save = 0;
+	while (*s) {
+		if (*s == c)
+			save = s;
+		s++;
+	}
+	return (char *)save;
+} /* my_strrchr */
+#endif  /* NO_STRRCHR */
+
+
+#ifdef NO_BASENAME
+char *my_basename (const char *filename)
+{
+	char *p = strrchr(filename, '/');
+	return p ? p + 1 : (char *)filename;
+}
+#endif  /* NO_BASENAME */
+
+
 #ifdef NO_MEMMOVE
-/*
- * Unix-ish operating systems based on 4.2BSD or older or SYSVR3 or older
- * lack memmove(3).
- *
- */
 void *my_memmove(void *dest, const void *src, size_t n)
 {
 	char *d =(char *)dest;
@@ -48,11 +69,6 @@ void *my_memmove(void *dest, const void *src, size_t n)
 
 
 #ifdef NO_STRDUP
-/*
- * Unix-ish operating systems based on 4.2BSD or older or SYSVR3 or older
- * lack strdup(3) and strndup(3).
- *
- */
 char *my_strdup(const char *src)
 {
 	char *str;

@@ -92,11 +92,9 @@ computers and for those who find it useful for web-based front-ends,
 bots, and whatever else you can think up.  Read the DUMB file for more 
 information.
 
-Unless the machine on which you're trying to build Dumb Frotz is missing 
-some vital functions, no editing of the Makefile should be necessary.  
-Check to see if that OS provides memmove(), strdup(), strndup(), or 
-strrchr() functions.  If not, there are some options in the Makefile 
-that cause Frotz to use its own versions of these functions.
+Unless the machine on which you're trying to build Dumb Frotz is missing
+some vital functions, no editing of the Makefile should be necessary.
+See the "Missing functions" section below if there is trouble.
 
 
 ============
@@ -371,6 +369,22 @@ commonly-used options).  The Makefile defines where Frotz will look for
 the frotz.conf file.  By default, this is /usr/local/etc and can be
 changed at compile time if you like.  This file will be read if Frotz
 notices you don't have a config file of your own in "$HOME/.frotzrc".
+
+
+====================
+Missing functions ||
+====================
+
+Frotz makes use of some functions that might not be available on some
+very old systems.  Frotz has its own versions of these function if
+that's the case.  Currently these are as follows:
+  strrchr()
+  memmove()
+  strdup()
+  strndup()
+  basename()
+Read the Makefile starting at the "Potentially Missing Functions"
+section and edit according to the directions.
 
 
 ===========================
