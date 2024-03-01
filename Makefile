@@ -95,8 +95,11 @@ CURSES ?= ncursesw
 # For missing memmove()
 #NO_MEMMOVE = yes
 
-# For missing strdup() and strndup()
+# For missing strdup()
 #NO_STRDUP = yes
+
+# For missing strndup()
+#NO_STRNDUP = yes
 
 # For missing strrchr()
 #NO_STRRCHR = yes
@@ -570,6 +573,7 @@ ifeq ($(EXPORT_TYPE), tops20)
 	@echo "#define TOPS20" >> $@
 	@echo "#endif" >> $@
 	@echo "#define NO_STRDUP" >> $@
+	@echo "#define NO_STRNDUP" >> $@
 	@echo "#define NO_BASENAME" >> $@
 	@echo "#define MAXPATHLEN 39" >> $@
 	@echo "#define NO_BLORB" >> $@
@@ -604,6 +608,9 @@ ifdef NO_MEMMOVE
 endif
 ifdef NO_STRDUP
 	@echo "#define NO_STRDUP" >> $@
+endif
+ifdef NO_STRNDUP
+	@echo "#define NO_STRNDUP" >> $@
 endif
 ifdef NO_UCONTEXT_H
 	@echo "#define NO_UCONTEXT_H" >> $@

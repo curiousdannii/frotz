@@ -29,13 +29,12 @@ void *my_memmove(void *, const void *, size_t);
 
 #ifdef NO_STRDUP
 char *my_strdup(const char *);
+#define strdup my_strdup
+#endif
+
+#ifdef NO_STRNDUP
 char *my_strndup(const char *, size_t);
-#ifndef my_strdup
-#define strdup	my_strdup
-#endif
-#ifndef my_strndup
-#define strndup	my_strndup
-#endif
+#define strndup my_strndup
 #endif
 
 #ifdef NO_BASENAME

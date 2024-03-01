@@ -84,7 +84,10 @@ char *my_strdup(const char *src)
 	*p = '\0';
 	return str;
 } /* my_strdup */
+#endif /* NO_STRDUP */
 
+
+#ifdef NO_STRNDUP
 char *my_strndup(const char *src, size_t n)
 {
 	char *str;
@@ -101,4 +104,4 @@ char *my_strndup(const char *src, size_t n)
 	*p = '\0';
 	return str;
 } /* my_strndup */
-#endif /* NO_STRDUP */
+#endif /* NO_STRNDUP */
