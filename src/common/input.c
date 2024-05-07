@@ -162,6 +162,9 @@ void z_read(void)
 	zbyte c;
 	int i;
 
+	if (f_setup.err_report_repeat > 0)
+		runtime_error(f_setup.err_report_repeat);
+
 	/* Supply default arguments */
 	if (zargc < 4)
 		zargs[3] = 0;

@@ -813,7 +813,9 @@ void	runtime_error(int);
 #define ERR_REMOVE_OBJECT_0 31	/* @remove_object called with object 0 */
 #define ERR_GET_NEXT_PROP_0 32	/* @get_next_prop called with object 0 */
 #define ERR_PLAY_SOUND 33	/* @play_sound called without SOUND_FLAG or OLD_SOUND_FLAG set */
-#define ERR_NUM_ERRORS (33)
+#define ERR_SOUND_MISSING 34	/* @play_sound called but picture resources are missing */
+#define ERR_PICTURE_MISSING 35	/* @draw_picture called but picture resources are missing */
+#define ERR_NUM_ERRORS (35)
 
 /*
  * There are four error reporting modes: never report errors;

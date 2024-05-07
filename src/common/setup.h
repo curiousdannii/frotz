@@ -35,6 +35,7 @@ typedef struct frotz_setup_struct {
 	int quiet;
 	int bleep;
 	int err_report_mode;
+	int err_report_repeat;	/* If set, say it again at @zread() */
 
 	char *story_file;
 	char *blorb_file;

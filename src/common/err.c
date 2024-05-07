@@ -62,7 +62,9 @@ static char *err_messages[] = {
 	"@move_object called moving into object 0",
 	"@remove_object called with object 0",
 	"@get_next_prop called with object 0",
-	"@play_sound called without SOUND_FLAG or OLD_SOUND_FLAG set"
+	"@play_sound called without SOUND_FLAG or OLD_SOUND_FLAG set",
+	"@play_sound called but sound resources are missing",
+	"@draw_picture called but picture resources are missing"
 };
 
 static void print_long (unsigned long value, int base);
@@ -108,7 +110,14 @@ void runtime_error(int errnum)
 	}
 
 	wasfirst = (error_count[errnum - 1] == 0);
-	error_count[errnum - 1]++;
+
+	if (!f_setup.err_report_repeat)
+		error_count[errnum - 1]++;
+	else {
+		wasfirst = TRUE;
+		error_count[errnum - 1] = 0;
+		f_setup.err_report_repeat = 0;
+	}
 
 	if ((f_setup.err_report_mode == ERR_REPORT_ALWAYS)
 		|| (f_setup.err_report_mode == ERR_REPORT_ONCE && wasfirst)) {

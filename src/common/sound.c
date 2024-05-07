@@ -184,8 +184,11 @@ void z_sound_effect(void)
 		return;
 	}
 
-	if (!f_setup.sound) {
+	if (!f_setup.sound)
 		runtime_error(ERR_PLAY_SOUND);
+
+	if (f_setup.blorb_file == NULL) {
+		runtime_error(ERR_SOUND_MISSING);
 		return;
 	}
 
