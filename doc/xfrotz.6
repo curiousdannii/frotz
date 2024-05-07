@@ -4,7 +4,36 @@ xfrotz \- interpreter for Infocom and other Z-Machine games (X11 interface)
 
 .SH SYNOPSIS
 .B xfrotz
-.I "[options] file"
+.RI [ options "] " "file " [ blorb_file "]"
+
+.P
+At least one file must be specified on the command line.  This can be
+either a plain Z-code file or a Blorb file.  A Z-code file is a compiled
+executable for the Z-Machine.  A Blorb file contains audio, graphics,
+and other things in addition to the game wrapped up into a single file.
+It can also optionally contain the Z-Machine executable.  If a plain
+Z-code file is supplied, then
+.B Frotz
+will check for a Blorb file with the same base name but an extension of
+.B .blb, .blorb,
+or
+.B .zblorb
+and load it if found.
+.P
+If the file supplied on the command line is a Blorb file, then
+.B Frotz
+will check to see if a Z-code file is contained within.  If not found, then
+.B Frotz
+will complain and exit.
+.P
+An alternatively-named Blorb file can be supplied as the optional second
+parameter to the command line invocation.
+.P
+If you want to play any of the games from Infocom that use sound or
+graphics, you will need to get a corresponding Blorb file from the
+Interactive Fiction Archive.  See
+.B FURTHER INFORMATION
+below.
 
 .SH DESCRIPTION
 The
@@ -253,8 +282,10 @@ is available for public perusal at
 .PP
 The Interactive Fiction Archive, at
 .BR https://www.ifarchive.org/ ,
-is a good place to find games to play with Frotz.  Various ports and
-builds for Frotz may also be found there.
+is a good place to find games to play with Frotz.  To play Infocom's
+games that use graphics or sound, you'll need to get corresponding Blorb
+files from there.  Various ports and builds for Frotz may also be found
+at the IF Archive.
 .PP
 Most distributions of Linux and BSD include
 .B Frotz
