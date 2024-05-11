@@ -391,7 +391,7 @@ DOSVER = $(shell echo $(VERSION) | sed s/\\.//g)
 curses: $(FROTZ_BIN)
 ncurses: $(FROTZ_BIN)
 $(FROTZ_BIN): $(FROTZ_LIBS)
-	$(CC) $+ -o $@$(EXTENSION) $(LDFLAGS) $(CURSES_LDFLAGS) $(CURSES_SOUND_LDFLAGS)
+	$(CC) $+ -o $@$ $(LDFLAGS) $(CURSES_LDFLAGS) $(CURSES_SOUND_LDFLAGS)
 	@echo "** Done building Frotz with curses interface"
 	@echo "** Audio support $(CURSES_SOUND) (type $(SOUND_TYPE))"
 	@echo "** Blorb support $(BLORB_SUPPORT)"
@@ -405,18 +405,18 @@ nosound_helper:
 
 dumb: $(DFROTZ_BIN)
 $(DFROTZ_BIN): $(DFROTZ_LIBS)
-	$(CC) $+ -o $@$(EXTENSION) $(LDFLAGS)
+	$(CC) $+ -o $@ $(LDFLAGS)
 	@echo "** Done building Frotz with dumb interface."
 	@echo "** Blorb support $(BLORB_SUPPORT)"
 
 x11: $(XFROTZ_BIN)
 $(XFROTZ_BIN): $(XFROTZ_LIBS)
-	$(CC) $+ -o $@$(EXTENSION) $(LDFLAGS) $(X11_LDFLAGS)
+	$(CC) $+ -o $@ $(LDFLAGS) $(X11_LDFLAGS)
 	@echo "** Done building Frotz with X11 interface."
 
 sdl: $(SFROTZ_BIN)
 $(SFROTZ_BIN): $(SFROTZ_LIBS)
-	$(CC) $+ -o $@$(EXTENSION) $(LDFLAGS) $(SDL_LDFLAGS)
+	$(CC) $+ -o $@ $(LDFLAGS) $(SDL_LDFLAGS)
 	@echo "** Done building Frotz with SDL interface."
 
 owdos: $(DOS_BIN)
