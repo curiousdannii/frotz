@@ -22,7 +22,10 @@
 #include <stdio.h>
 #include <signal.h>
 #include <stdlib.h>
+
+#ifndef NO_EXECINFO_H
 #include <execinfo.h>
+#endif
 
 #include <SDL.h>
 
