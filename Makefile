@@ -338,7 +338,10 @@ X11_LDFLAGS = `pkg-config $(X11_PKGS) --libs` -lm
 SDL_DIR = $(SRCDIR)/sdl
 SDL_LIB = $(SDL_DIR)/frotz_sdl.a
 export SDL_PKGS = libpng libjpeg sdl2 SDL2_mixer freetype2 zlib
-SDL_LDFLAGS += $(shell $(PKGCONF) $(SDL_PKGS) --libs) -lm
+SDL_LDFLAGS += -lm
+ifneq ($(NO_PKGCONF), yes)
+SDL_LDFLAGS += $(shell $(PKGCONF) $(SDL_PKGS) --libs)
+endif
 
 SUBDIRS = $(COMMON_DIR) $(CURSES_DIR) $(X11_DIR) $(SDL_DIR) $(DUMB_DIR) $(BLORB_DIR) $(DOS_DIR) $(FONTS_DIR)
 SUB_CLEAN = $(SUBDIRS:%=%-clean)

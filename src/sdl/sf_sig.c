@@ -136,18 +136,18 @@ static void bt_sighandler(int sig, siginfo_t * info, void * UNUSED (secret))
 
 	printf("\n");
 
-	trace_size = backtrace(trace, 16);
+	//trace_size = backtrace(trace, 16);
 	/* overwrite sigaction with caller's address */
 	/* trace[1] = (void *) uc->uc_mcontext.gregs[_PROG_COUNTER]; */
 
 	/* skip first stack frame (points here) */
-	printf("Backtrace:\n");
+	//printf("Backtrace:\n");
 
-	for (i = 1; i < trace_size; i++) {
+	/* for (i = 1; i < trace_size; i++) {
 		printf("  ");
 		fflush(stdout);
 		backtrace_symbols_fd(trace + i, 1, fileno(stdout));
-	}
+	} */
 
 	os_quit(EXIT_SUCCESS);
 } /* bt_sighandler */
