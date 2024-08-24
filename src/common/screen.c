@@ -973,11 +973,6 @@ void z_draw_picture(void)
 
 	int i;
 
-	if (f_setup.blorb_file == NULL) {
-		runtime_error(ERR_PICTURE_MISSING);
-		f_setup.err_report_repeat = ERR_PICTURE_MISSING;
-	}
-
 	flush_buffer();
 
 	if (y == 0)		/* use cursor line if y-coordinate is 0 */
