@@ -39,3 +39,5 @@ src/test/*rec
 *.scr
 *.rec
 *.pcf
+sfrotz.js
+sfrotz.wasm
